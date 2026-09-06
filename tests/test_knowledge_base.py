@@ -1,8 +1,4 @@
-"""
-Point 17 (independent tests): each test gets its own temp KB file via
-monkeypatch, so tests never share state with each other or with a real
-run of the app - true test isolation.
-"""
+
 import knowledge_base
 
 
