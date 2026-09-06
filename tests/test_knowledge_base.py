@@ -4,7 +4,7 @@ import knowledge_base
 
 def test_verify_known_company(tmp_path, monkeypatch):
     monkeypatch.setattr(knowledge_base, "KB_FILE", tmp_path / "kb.json")
-    result = knowledge_base.verify_entity("Googl", "company")  # slight typo
+    result = knowledge_base.verify_entity("Googl", "company") 
     assert result["verified"] is True
     assert result["matched_to"] == "Google"
 
@@ -26,6 +26,6 @@ def test_teach_entity_persists(tmp_path, monkeypatch):
 def test_teach_entity_is_idempotent(tmp_path, monkeypatch):
     monkeypatch.setattr(knowledge_base, "KB_FILE", tmp_path / "kb.json")
     knowledge_base.teach_entity("Acme Robotics", "company")
-    knowledge_base.teach_entity("Acme Robotics", "company")  # call twice
+    knowledge_base.teach_entity("Acme Robotics", "company")
     kb = knowledge_base._load_kb()
     assert kb["companies"].count("Acme Robotics") == 1
