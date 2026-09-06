@@ -13,7 +13,6 @@ def validate_resume(data: ResumeData) -> ResumeData:
         data.confidence_scores.email = min(data.confidence_scores.email, 0.3)
     data.email = cleaned_email or data.email
 
-    # Verify companies / institutions against a known-entities knowledge base
     verified = {}
     for exp in data.experience:
         verified[exp.company] = verify_entity(exp.company, "company")
