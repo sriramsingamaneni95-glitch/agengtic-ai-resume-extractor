@@ -1,21 +1,10 @@
-"""
-Targeted Verification Agent — dynamically invoked ONLY for fields that came
-back low-confidence, instead of re-running the whole pipeline. This is the
-'targeted verification agent' from the review feedback.
-"""
+
 import json
 from llm_client import get_client
 from schema import ResumeData
 from utils.retry import clean_json_text, retry_on_failure
 from utils.logging_config import log_call, log_token_usage
 
-VERIFY_PROMPT = """Focus ONLY on re-extracting these specific fields as carefully
-as possible by re-reading the original resume text: {fields}
-Return ONLY a JSON object containing just these field names as keys.
-
-Original resume:
-{resume_text}
-"""
 
 
 @log_call
