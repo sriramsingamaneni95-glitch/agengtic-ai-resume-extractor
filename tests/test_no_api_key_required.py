@@ -25,7 +25,4 @@ def test_llm_client_is_lazy(monkeypatch):
     except Exception:
         raised = True
 
-    # Either behavior is acceptable here (some environments have a key,
-    # some don't) - the real assertion is that IMPORTING llm_client.py
-    # itself (done above, in every other test file too) never raises.
     assert True
