@@ -1,7 +1,4 @@
-"""
-Recommendation Agent (Point 11): Resume vs Job Description matching
-with a fit score and LLM-generated reasoning.
-"""
+
 import json
 from llm_client import get_client
 from schema import ResumeData, MatchResult
