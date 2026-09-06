@@ -9,21 +9,6 @@ from tools.skill_normalizer import normalize_skill
 from utils.retry import clean_json_text, retry_on_failure
 from utils.logging_config import logger, log_call, log_token_usage
 
-SYSTEM_PROMPT = """You are a resume extraction agent. Extract structured data
-matching this JSON shape:
-{
-  "name": str, "email": str, "phone": str, "summary": str,
-  "skills": [str],
-  "experience": [{"company","title","start_date","end_date","description"}],
-  "education": [{"institution","degree","year"}],
-  "confidence_scores": {"name":0-1,"email":0-1,"phone":0-1,"skills":0-1,"experience":0-1,"education":0-1}
-}
-While extracting, USE THE PROVIDED TOOLS to validate the email you find,
-normalize every date you find, and normalize every skill name you find.
-Once you are done calling tools, respond with ONLY the final JSON object —
-no prose, no markdown fences.
-"""
-
 TOOLS = [
     {
         "type": "function",
