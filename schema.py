@@ -1,7 +1,4 @@
-"""
-Pydantic schema for guaranteed structured output (Point 5: JSON Schema validation).
-Also carries confidence scores (Point 6) and resume intelligence fields (Point 13).
-"""
+
 from pydantic import BaseModel, Field
 from typing import Optional, List
 
