@@ -27,12 +27,12 @@ Every decision is traced, every version is remembered.
 - [Known limitations](#known-limitations)
 - [Tech stack](#tech-stack)
 
-* Currently orchestrator [is a] fixed pipeline... dynamic routing/decision making [is] limited"* | Replaced the fixed sequence with a real state machine. Routing decisions are runtime `if` branches over shared state, not a hardcoded call order. | `agent_graph.py` (engine) + `orchestrator.py` (routers: `router_plan`, `router_extract`, `router_validate`, ...)
-* Currently Python functions are manually invoked post-processing"* — not real tool calling | Extraction now uses OpenAI's native `tools=[...]` function-calling API. The **model** decides when to call `validate_email` / `parse_date` / `normalize_skill`, and the code executes exactly what the model requests. |`agents/extraction_agent.py` — see the `TOOLS` schema and the tool-call loop |
-* Real dynamic agent routing"* — OCR path, malformed-output path, low-confidence path | Three concrete branches implemented: messy/scanned text → `clean_text` node; malformed JSON → bounded retry loop (max 3); low-confidence field → `targeted_verification` node (new agent, only fires when needed) | `orchestrator.py` routers + `agents/verification_agent.py` 
-* Stateful agent graph... LangGraph or custom state-machine"* | Hand-rolled `AgentGraph` + `AgentState` — nodes read/write shared state, routers branch on it, and every run's path is captured in `state.log` | `agent_graph.py` 
-* Parallel execution... validation + intelligence calculations parallel"* | `node_score` runs resume-intelligence, ATS scoring, and JD-matching concurrently via `ThreadPoolExecutor` instead of sequentially | `orchestrator.py::node_score` 
-* Better memory... semantic memory/vector retrieval"* + *"Human feedback loop... agent memory update"* | Added embedding-based similarity search on top of version history, and human corrections now permanently teach the knowledge base | `semantic_memory.py`, `feedback.py` (`teach_entity` call) 
+* Currently orchestrator [is a] fixed pipeline... dynamic routing/decision making [is] limited | Replaced the fixed sequence with a real state machine. Routing decisions are runtime `if` branches over shared state, not a hardcoded call order. | `agent_graph.py` (engine) + `orchestrator.py` (routers: `router_plan`, `router_extract`, `router_validate`, ...)
+* Currently Python functions are manually invoked post-processing — not real tool calling | Extraction now uses OpenAI's native `tools=[...]` function-calling API. The **model** decides when to call `validate_email` / `parse_date` / `normalize_skill`, and the code executes exactly what the model requests. |`agents/extraction_agent.py` — see the `TOOLS` schema and the tool-call loop |
+* Real dynamic agent routing— OCR path, malformed-output path, low-confidence path | Three concrete branches implemented: messy/scanned text → `clean_text` node; malformed JSON → bounded retry loop (max 3); low-confidence field → `targeted_verification` node (new agent, only fires when needed) | `orchestrator.py` routers + `agents/verification_agent.py` 
+* Stateful agent graph... LangGraph or custom state-machine | Hand-rolled `AgentGraph` + `AgentState` — nodes read/write shared state, routers branch on it, and every run's path is captured in `state.log` | `agent_graph.py` 
+* Parallel execution... validation + intelligence calculations parallel | `node_score` runs resume-intelligence, ATS scoring, and JD-matching concurrently via `ThreadPoolExecutor` instead of sequentially | `orchestrator.py::node_score` 
+* Better memory... semantic memory/vector retrieval + Human feedback loop... agent memory update| Added embedding-based similarity search on top of version history, and human corrections now permanently teach the knowledge base | `semantic_memory.py`, `feedback.py` (`teach_entity` call) 
 
 Run `result["agent_trace"]` after any pipeline call to see the literal path
 taken — it's the easiest way to verify #1 and #3 are real, not cosmetic.
@@ -40,7 +40,6 @@ taken — it's the easiest way to verify #1 and #3 are real, not cosmetic.
 ## Why this is "agentic," not just an API wrapper
 
 | Capability | Where it lives |
-|---|---|
 | Plans before acting | `agents/planning_agent.py` assesses the resume (messy? scanned? multi-page?) before extraction starts |
 | Calls its own tools | `agents/extraction_agent.py` — the **model itself** decides when to call `validate_email`, `parse_date`, `normalize_skill`, via OpenAI's function-calling API — not post-processing in Python |
 | Reflects and self-corrects | `agents/reflection_agent.py` re-reads the source resume and fixes its own extraction |
