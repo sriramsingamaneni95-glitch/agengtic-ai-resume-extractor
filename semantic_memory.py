@@ -1,8 +1,4 @@
-"""
-Semantic memory upgrade: stores resume summaries as embeddings so similar
-past resumes can be retrieved by MEANING, not just exact filename match
-(upgrade over the plain version-history JSON in memory.py).
-"""
+
 import json
 from pathlib import Path
 from llm_client import get_client
