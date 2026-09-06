@@ -1,7 +1,4 @@
-"""
-Self-Reflection Agent (Point 4): reviews its own output against the source
-resume and corrects mistakes before finalizing.
-"""
+
 import json
 from llm_client import get_client
 from schema import ResumeData
