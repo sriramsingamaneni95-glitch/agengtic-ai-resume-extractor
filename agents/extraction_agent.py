@@ -1,8 +1,3 @@
-"""
-Extraction Agent — uses REAL OpenAI tool calling. The model itself decides
-when to call validate_email / parse_date / normalize_skill mid-generation,
-instead of us running those functions manually after the fact.
-"""
 import json
 from pydantic import ValidationError
 
