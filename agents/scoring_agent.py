@@ -55,7 +55,6 @@ def compute_resume_intelligence(data: ResumeData) -> ResumeIntelligence:
 
 @log_call
 def compute_ats_score(resume_text: str, jd_text: str) -> ATSResult:
-    """Simple deterministic keyword-overlap ATS score - no LLM call needed."""
     def keywords(text):
         words = re.findall(r"[A-Za-z][A-Za-z\+\#\.]{1,}", text.lower())
         stop = {"the", "and", "with", "for", "a", "an", "to", "of", "in", "on"}
