@@ -5,17 +5,6 @@ from schema import ResumeData
 from utils.retry import clean_json_text, retry_on_failure
 from utils.logging_config import log_call, log_token_usage
 
-REFLECTION_PROMPT = """You extracted this JSON from a resume. Re-check it against
-the original resume text. Fix any missing, incorrect, or misformatted fields.
-Return ONLY the corrected JSON, in the same shape.
-
-Extracted JSON:
-{extracted_json}
-
-Original resume:
-{resume_text}
-"""
-
 
 @log_call
 @retry_on_failure(max_attempts=2)
