@@ -1,9 +1,4 @@
-"""
-Entry point. Reads a resume (and optional job description), runs the
-full agentic pipeline (stateful graph with dynamic routing), prints +
-saves the result, and offers a human-in-the-loop correction step for
-any low-confidence fields.
-"""
+
 import json
 from pathlib import Path
 from dotenv import load_dotenv
@@ -13,8 +8,8 @@ from feedback import record_correction
 
 load_dotenv()
 
-RESUME_FILE = "sample_resume.txt"  # can also point to a .pdf file - handled automatically
-JD_FILE = "job_description.txt"   # optional - create this to enable JD matching + ATS
+RESUME_FILE = "sample_resume.txt"  
+JD_FILE = "job_description.txt"   
 OUTPUT_FILE = "output.json"
 
 
@@ -37,7 +32,6 @@ def read_text_file(path: str, label: str, required: bool = True) -> str | None:
 
 
 def run_human_feedback_loop(result: dict):
-    """Point: human feedback loop actually updates agent memory."""
     fields = result["low_confidence_fields"]
     if not fields:
         return
