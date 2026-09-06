@@ -1,11 +1,5 @@
 #  Agentic AI Resume Extractor
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4.1-412991?logo=openai&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white)
-![Docker](https://img.shields.io/badge/containerized-Docker-2496ED?logo=docker&logoColor=white)
-![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 > Turns a raw resume into structured, validated, scored JSON — through a
 > **stateful multi-agent graph**, not a single prompt.
