@@ -1,7 +1,4 @@
-"""
-Memory module (Point 9): stores each run's output and diffs it against
-the previous version for the same resume file.
-"""
+
 import json
 from pathlib import Path
 from datetime import datetime
@@ -16,7 +13,6 @@ def _load_history() -> list:
 
 
 def save_version(resume_name: str, data: dict) -> dict | None:
-    """Saves a new version and returns a diff against the previous one (or None)."""
     history = _load_history()
     previous = next(
         (h for h in reversed(history) if h["resume_name"] == resume_name), None
