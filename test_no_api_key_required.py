@@ -1,9 +1,4 @@
-"""
-Proves the test suite is genuinely independent of any API key or network
-access - the exact bug that was fixed in this audit (agents previously
-instantiated OpenAI() at import time, so importing orchestrator.py used
-to crash immediately without OPENAI_API_KEY set, e.g. in CI).
-"""
+
 import os
 import importlib
 
@@ -12,10 +7,8 @@ def test_orchestrator_imports_with_no_api_key_present(monkeypatch):
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
     import orchestrator
-    importlib.reload(orchestrator)  # re-run module-level code with key removed
+    importlib.reload(orchestrator)
 
-    # If we get here without raising, no agent tried to construct a real
-    # OpenAI client just from being imported.
     assert hasattr(orchestrator, "build_graph")
     assert hasattr(orchestrator, "run_pipeline")
 
