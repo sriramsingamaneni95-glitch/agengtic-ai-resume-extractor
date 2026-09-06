@@ -1,4 +1,3 @@
-"""Tool: normalize skill name variants to a canonical form (Point 2)."""
 
 SKILL_MAP = {
     "js": "JavaScript",
