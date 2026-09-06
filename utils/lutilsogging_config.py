@@ -1,6 +1,4 @@
-"""
-Observability (Point 15): structured logging with latency + token usage.
-"""
+
 import logging
 import time
 import functools
@@ -14,7 +12,6 @@ logger = logging.getLogger("resume_extractor")
 
 
 def log_call(fn):
-    """Decorator: logs latency for any agent/tool call."""
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         start = time.time()
