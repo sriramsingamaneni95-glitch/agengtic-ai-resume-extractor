@@ -1,4 +1,4 @@
-# 🤖 Agentic AI Resume Extractor
+#  Agentic AI Resume Extractor
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4.1-412991?logo=openai&logoColor=white)
@@ -36,14 +36,6 @@ Every decision is traced, every version is remembered.
 - [Tech stack](#tech-stack)
 
 ---
-
-## Evolution of this project
-
-| Version | What it was |
-|---|---|
-| v1 | A single prompt → single OpenAI call → JSON output |
-| v2 | Refactored into a 6-agent pipeline: planning, extraction, reflection, validation, scoring, recommendation — plus tools, schema validation, confidence scores, memory, and a knowledge base |
-| **v3 (this version)** | v2's pipeline was still linear underneath, and tools were invoked manually by Python rather than by the model. v3 replaces the fixed pipeline with a **real stateful agent graph** that branches based on runtime state, switches extraction to genuine OpenAI function/tool calling, adds a targeted verification agent, runs scoring in parallel, and closes the loop with a persistent human-feedback mechanism. It was also fully audited: a bug that silently required an API key just to *import* the code (breaking CI) was found and fixed, along with an email-validation bug and a tool-response serialization bug. |
 
 ## Why this is "agentic," not just an API wrapper
 
@@ -102,9 +94,9 @@ different traces.
     "skills": ["Python", "JavaScript", "Machine Learning"],
     "experience": [
       {
-        "company": "Google",
+        "company": "Jpmc",
         "title": "Software Engineer",
-        "start_date": "2021-06",
+        "start_date": "2025-06",
         "end_date": "present"
       }
     ],
@@ -176,8 +168,8 @@ different traces.
 ## Quickstart
 
 ```bash
-git clone https://github.com/sriramsingamaneni95-glitch/agengtic-ai-resume-extractor.git
-cd agengtic-ai-resume-extractor
+git clone https://github.com/sriramsingamaneni95-glitch/agentic-ai-resume-extractor.git
+cd agentic-ai-resume-extractor
 pip install -r requirements.txt
 cp .env.example .env        # add your OPENAI_API_KEY
 python app.py
