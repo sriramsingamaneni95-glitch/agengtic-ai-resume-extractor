@@ -1,7 +1,4 @@
-"""
-Planning Agent (Point 1): decides the extraction strategy before acting,
-instead of jumping straight into a single prompt.
-"""
+
 from llm_client import get_client
 from utils.logging_config import logger, log_call
 
