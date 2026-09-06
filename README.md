@@ -1,4 +1,4 @@
-# Resume JSON Extractor — Agentic AI Edition (v3, audited & submission-ready)
+# Resume JSON Extractor — Agentic AI Edition 
 
 Reads a resume (.txt or .pdf), converts it into structured, schema-validated
 JSON through a **stateful multi-agent graph** with real dynamic routing,
