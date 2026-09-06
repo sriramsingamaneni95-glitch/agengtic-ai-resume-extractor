@@ -2,7 +2,4 @@ openai>=1.40.0
 python-dotenv>=1.0.0
 pydantic>=2.7.0
 pytest>=8.0.0
-# Optional - only needed if you use the PDF parsing tool:
-# pymupdf>=1.24.0
 
-# Needed for real OpenAI tool calling + embeddings (already covered by openai>=1.40.0)
