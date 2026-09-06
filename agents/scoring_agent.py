@@ -1,12 +1,4 @@
-"""
-Scoring Agent (Points 12, 13): ATS score + resume intelligence
-(experience years, seniority, leadership signals, career progression).
 
-Both functions here are DETERMINISTIC (regex/date math, keyword overlap) -
-no OpenAI call is made. This is a deliberate design choice: cheaper, faster,
-and fully reproducible/testable without hitting the API. See README ->
-"Design decisions" for the trade-off this implies.
-"""
 import re
 from datetime import datetime
 
