@@ -1,10 +1,7 @@
-"""
-Tool: extract raw text from a PDF resume (Point 2).
-Requires: pip install pymupdf
-"""
+
 def parse_pdf(path: str) -> str:
     try:
-        import fitz  # PyMuPDF
+        import fitz  
     except ImportError:
         raise ImportError("Run: pip install pymupdf")
 
