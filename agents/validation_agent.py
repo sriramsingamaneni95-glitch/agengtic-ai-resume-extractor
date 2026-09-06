@@ -1,8 +1,4 @@
-"""
-Validation Agent (Point 3): cross-checks extracted fields using deterministic
-tools + a lightweight knowledge-base lookup (Point 10), and flags low-confidence
-fields for human review (Point 7).
-"""
+
 from schema import ResumeData
 from tools.email_validator import validate_email
 from knowledge_base import verify_entity
