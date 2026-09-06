@@ -76,13 +76,7 @@ def _run_tool(name: str, args: dict) -> dict:
 
 
 def _assistant_message_as_dict(msg) -> dict:
-    """
-    BUG FIX: the OpenAI SDK's response message is a pydantic object.
-    Appending it directly to `messages` and sending it back in the next
-    API call is unreliable across SDK versions (tool_calls sub-objects
-    don't always serialize the way the API expects). Building the dict
-    explicitly guarantees the follow-up call is well-formed.
-    """
+    
     result = {"role": "assistant", "content": msg.content}
     if msg.tool_calls:
         result["tool_calls"] = [
@@ -106,7 +100,7 @@ def extract_resume_json(resume_text: str, plan: dict) -> ResumeData:
     ]
 
     final_content = None
-    for round_num in range(6):  # allow several tool round-trips before giving up
+    for round_num in range(6): 
         response = client.chat.completions.create(
             model="gpt-4.1",
             messages=messages,
@@ -127,7 +121,7 @@ def extract_resume_json(resume_text: str, plan: dict) -> ResumeData:
                     "tool_call_id": tool_call.id,
                     "content": json.dumps(result),
                 })
-            continue  # let the model see tool results and continue
+            continue 
 
         final_content = msg.content
         break
