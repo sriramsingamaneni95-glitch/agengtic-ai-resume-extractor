@@ -1,12 +1,5 @@
 # 🤖 Agentic AI Resume Extractor
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4.1-412991?logo=openai&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white)
-![Docker](https://img.shields.io/badge/containerized-Docker-2496ED?logo=docker&logoColor=white)
-![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-lightgrey)
-
 > Turns a raw resume into structured, validated, scored JSON — through a
 > **stateful multi-agent graph**, not a single prompt.
 
@@ -17,15 +10,6 @@ cross-references companies and universities against a knowledge base. If
 anything comes back uncertain, a targeted verification agent — or a human —
 steps in. Scoring, ATS matching, and JD comparison all run in parallel.
 Every decision is traced, every version is remembered.
-
-## Demo
-
-![Sample run](docs/demo-run.svg)
-
-*(Illustrative sample output — run `python app.py` on your own resume to
-generate a real `agent_trace` and `output.json`.)*
-
----
 
 ## Table of Contents
 - [Evolution of this project](#evolution-of-this-project)
@@ -43,29 +27,12 @@ generate a real `agent_trace` and `output.json`.)*
 - [Known limitations](#known-limitations)
 - [Tech stack](#tech-stack)
 
----
-
-## Evolution of this project
-
-| Version | What it was |
-|---|---|
-| v1 | A single prompt → single OpenAI call → JSON output |
-| v2 | Refactored into a 6-agent pipeline: planning, extraction, reflection, validation, scoring, recommendation — plus tools, schema validation, confidence scores, memory, and a knowledge base |
-| **v3 (this version)** | Replaced the fixed pipeline with a real stateful agent graph, switched extraction to genuine OpenAI function/tool calling, added a targeted verification agent, parallelized scoring, and closed the loop with persistent human feedback. Then fully audited: a bug that silently required an API key just to *import* the code (breaking CI) was found and fixed, along with an email-validation bug and a tool-response serialization bug. |
-
-## Addressing the code-review feedback
-
-The v2 review specifically flagged six gaps between "looks agentic" and
-"is agentic." Each one was resolved directly, not just re-described:
-
-| # | Reviewer's gap | Resolution | Evidence |
-|---|---|---|---|
-| 1 | *"Currently orchestrator [is a] fixed pipeline... dynamic routing/decision making [is] limited"* | Replaced the fixed sequence with a real state machine. Routing decisions are runtime `if` branches over shared state, not a hardcoded call order. | `agent_graph.py` (engine) + `orchestrator.py` (routers: `router_plan`, `router_extract`, `router_validate`, ...) |
-| 2 | *"Currently Python functions are manually invoked post-processing"* — not real tool calling | Extraction now uses OpenAI's native `tools=[...]` function-calling API. The **model** decides when to call `validate_email` / `parse_date` / `normalize_skill`, and the code executes exactly what the model requests. | `agents/extraction_agent.py` — see the `TOOLS` schema and the tool-call loop |
-| 3 | *"Real dynamic agent routing"* — OCR path, malformed-output path, low-confidence path | Three concrete branches implemented: messy/scanned text → `clean_text` node; malformed JSON → bounded retry loop (max 3); low-confidence field → `targeted_verification` node (new agent, only fires when needed) | `orchestrator.py` routers + `agents/verification_agent.py` |
-| 4 | *"Stateful agent graph... LangGraph or custom state-machine"* | Hand-rolled `AgentGraph` + `AgentState` — nodes read/write shared state, routers branch on it, and every run's path is captured in `state.log` | `agent_graph.py` |
-| 5 | *"Parallel execution... validation + intelligence calculations parallel"* | `node_score` runs resume-intelligence, ATS scoring, and JD-matching concurrently via `ThreadPoolExecutor` instead of sequentially | `orchestrator.py::node_score` |
-| 6 | *"Better memory... semantic memory/vector retrieval"* + *"Human feedback loop... agent memory update"* | Added embedding-based similarity search on top of version history, and human corrections now permanently teach the knowledge base | `semantic_memory.py`, `feedback.py` (`teach_entity` call) |
+* Currently orchestrator [is a] fixed pipeline... dynamic routing/decision making [is] limited"* | Replaced the fixed sequence with a real state machine. Routing decisions are runtime `if` branches over shared state, not a hardcoded call order. | `agent_graph.py` (engine) + `orchestrator.py` (routers: `router_plan`, `router_extract`, `router_validate`, ...)
+* Currently Python functions are manually invoked post-processing"* — not real tool calling | Extraction now uses OpenAI's native `tools=[...]` function-calling API. The **model** decides when to call `validate_email` / `parse_date` / `normalize_skill`, and the code executes exactly what the model requests. |`agents/extraction_agent.py` — see the `TOOLS` schema and the tool-call loop |
+* Real dynamic agent routing"* — OCR path, malformed-output path, low-confidence path | Three concrete branches implemented: messy/scanned text → `clean_text` node; malformed JSON → bounded retry loop (max 3); low-confidence field → `targeted_verification` node (new agent, only fires when needed) | `orchestrator.py` routers + `agents/verification_agent.py` 
+* Stateful agent graph... LangGraph or custom state-machine"* | Hand-rolled `AgentGraph` + `AgentState` — nodes read/write shared state, routers branch on it, and every run's path is captured in `state.log` | `agent_graph.py` 
+* Parallel execution... validation + intelligence calculations parallel"* | `node_score` runs resume-intelligence, ATS scoring, and JD-matching concurrently via `ThreadPoolExecutor` instead of sequentially | `orchestrator.py::node_score` 
+* Better memory... semantic memory/vector retrieval"* + *"Human feedback loop... agent memory update"* | Added embedding-based similarity search on top of version history, and human corrections now permanently teach the knowledge base | `semantic_memory.py`, `feedback.py` (`teach_entity` call) 
 
 Run `result["agent_trace"]` after any pipeline call to see the literal path
 taken — it's the easiest way to verify #1 and #3 are real, not cosmetic.
@@ -114,9 +81,9 @@ different traces.
     "skills": ["Python", "JavaScript", "Machine Learning"],
     "experience": [
       {
-        "company": "Google",
+        "company": "jpmc",
         "title": "Software Engineer",
-        "start_date": "2021-06",
+        "start_date": "2025-06",
         "end_date": "present"
       }
     ],
@@ -189,8 +156,8 @@ different traces.
 ## Quickstart
 
 ```bash
-git clone https://github.com/sriramsingamaneni95-glitch/agengtic-ai-resume-extractor.git
-cd agengtic-ai-resume-extractor
+git clone https://github.com/sriramsingamaneni95-glitch/agentic-ai-resume-extractor.git
+cd agentic-ai-resume-extractor
 pip install -r requirements.txt
 cp .env.example .env        # add your OPENAI_API_KEY
 python app.py
