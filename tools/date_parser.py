@@ -1,4 +1,4 @@
-"""Tool: normalize messy resume dates like 'Jan 2020', '2020-01', 'Present' (Point 2)."""
+
 from datetime import datetime
 
 MONTHS = {
@@ -18,4 +18,4 @@ def parse_date(date_str: str):
             return datetime.strptime(date_str.strip(), fmt).strftime("%Y-%m")
         except ValueError:
             continue
-    return date_str  # fall back to raw string if unparseable
+    return date_str  
