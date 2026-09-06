@@ -1,11 +1,7 @@
-"""
-Error handling / retries / malformed JSON recovery (Point 14).
-No external dependency needed - simple manual retry with backoff.
-"""
+
 import time
 import functools
 from utils.logging_config import logger
-
 
 def retry_on_failure(max_attempts: int = 3, backoff_seconds: float = 1.5):
     def decorator(fn):
@@ -30,7 +26,6 @@ def retry_on_failure(max_attempts: int = 3, backoff_seconds: float = 1.5):
 
 
 def clean_json_text(raw_output: str) -> str:
-    """Strip markdown code fences etc. that models sometimes add."""
     raw_output = raw_output.strip()
     if raw_output.startswith("```"):
         raw_output = raw_output.strip("`")
